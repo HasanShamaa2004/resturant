@@ -28,5 +28,5 @@ const FormGroup = forwardRef<HTMLDivElement, FormGroupProps>((props, ref) => {
     </div>
   );
 });
-
+FormGroup.displayName = "FormGroup";
 export default FormGroup;

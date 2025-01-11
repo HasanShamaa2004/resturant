@@ -1,5 +1,4 @@
 "use client";
-
 import Image from "next/image";
 import Input from "@/app/src/components/Input";
 import { CiSearch } from "react-icons/ci";
@@ -11,12 +10,20 @@ import {
   DialogHeader,
 } from "@/app/src/components/Dialog/Dialog";
 import { Option, Select } from "@/app/src/components/Select";
+import Flag from "react-world-flags";
+import { useTranslation } from "react-i18next";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const store = "/assets/icons/store.svg";
   const logo = "/assets/img/logo.svg";
   const [open, setOpen] = useState<boolean>(false);
   const [selected, setSelected] = useState("select-language");
+  const { t, i18n } = useTranslation();
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
+  const router = useRouter();
   return (
     <header className="bg-[#18181B] md:px-6 container mx-auto px-0 !max-w-full !w-full overflow-hidden">
       <nav className="flex-between md:p-6 p-3 w-full">
@@ -28,7 +35,7 @@ const Navbar = () => {
           containerProps={{
             className: "min-w-[300px] md:flex hidden focus:!outline-none",
           }}
-          placeholder="what are you looking for?"
+          placeholder={t("whatAreYouLookingFor")}
           icon={
             <CiSearch
               width={40}
@@ -50,6 +57,7 @@ const Navbar = () => {
             width={40}
             height={40}
             className="cursor-pointer"
+            onClick={() => router.push("/cart")}
           />
         </div>
       </nav>
@@ -65,14 +73,36 @@ const Navbar = () => {
           <Select
             variant="outlined"
             value={selected}
-            onChange={(e) => setSelected(e as string)}
-            className="text-white"
+            onChange={(e) => changeLanguage(e as string)}
+            className="text-white flex !items-center"
           >
             <Option value="select-language" disabled>
               Select Language
             </Option>
-            <Option value="en">English</Option>
-            <Option value="ar">Arabic</Option>
+            <Option
+              value="en"
+              className="flex gap-2 items-center !justify-start"
+            >
+              <div className="flex gap-2 items-center !justify-start">
+                <Flag
+                  code="us"
+                  style={{ width: "25px", height: "25px", marginBottom: "3px" }}
+                />
+                <span>English</span>
+              </div>
+            </Option>
+            <Option
+              value="ar"
+              className="flex gap-2 items-center !justify-start"
+            >
+              <div className="flex gap-2 items-center !justify-start">
+                <Flag
+                  code="ae"
+                  style={{ width: "25px", height: "25px", marginBottom: "3px" }}
+                />
+                <span>Arabic</span>
+              </div>
+            </Option>
           </Select>
         </DialogBody>
       </Dialog>

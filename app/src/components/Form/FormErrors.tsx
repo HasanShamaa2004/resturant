@@ -1,45 +1,36 @@
 "use client";
 
-// Dependencies
 import { forwardRef } from "react";
-
-// Utils
+import { FiAlertTriangle } from "react-icons/fi";
 import { cn } from "../../utilities/tailwind/cn";
 
-// Types
-import { FormErrorsProps } from "../../types/Components/FormErrors";
-// Icons
-import { FiAlertTriangle } from "react-icons/fi";
-import useTheme from "../../hooks/useTheme";
+export type FormErrorsProps = {
+  message?: string;
+  className?: string;
+};
 
 const FormErrors = forwardRef<HTMLDivElement, FormErrorsProps>(function (
   props,
   ref
 ) {
-  const errors = Object.values(props.errors ?? {});
-
-  // عُد null بدلاً من false إذا لم يكن هناك أخطاء
-  if (errors.length === 0) return null;
-  const theme = useTheme();
-  const formTheme = theme.global.components.custom.form;
+  if (!props.message) return null;
 
   return (
     <div
       ref={ref}
-      {...props}
-      className={cn(formTheme.form_errors.base, props.className)}
+      className={cn(
+        "bg-red border border-red-400 text-red-700 px-4 py-3 rounded relative",
+        props.className
+      )}
+      role="alert"
     >
-      {errors.map((error, index) => (
-        <p
-          key={`${error} + ${index * Math.random()}`}
-          className={formTheme.form_errors.error.base}
-        >
-          <FiAlertTriangle />
-          {error}
-        </p>
-      ))}
+      <div className="flex items-center gap-2">
+        <FiAlertTriangle className="w-5 h-5" />
+        <span>{props.message}</span>
+      </div>
     </div>
   );
 });
 
+FormErrors.displayName = "FormErrors";
 export default FormErrors;

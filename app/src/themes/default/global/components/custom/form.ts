@@ -1,7 +1,7 @@
 export default {
   base: 'flex flex-col gap-6 w-full',
   form_group: {
-    base: 'flex flex-col gap-2 w-full',
+    base: 'flex gap-2 max-w-[850px] w-full',
     double: 'grid md:grid-cols-2 gap-3',
   },
 

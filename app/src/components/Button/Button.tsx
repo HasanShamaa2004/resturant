@@ -15,16 +15,20 @@ import useTheme from "../../hooks/useTheme";
 const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
   const theme = useTheme();
   const buttonTheme = theme.global.components.custom.button;
+
   return (
     <MButton
-      color={props.color}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       {...(props as any)}
       ref={ref}
+      color={props.color}
       className={cn(buttonTheme.base, props.className)}
     >
       {props.children}
     </MButton>
   );
 });
+
+Button.displayName = "Button";
 
 export default Button;

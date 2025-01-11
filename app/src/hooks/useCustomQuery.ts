@@ -1,9 +1,13 @@
+'use client'
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { CustomUseQueryOptions } from '../types/Hooks/useCustomQuery';
 
-
-
-export function useCustomQuery<TQueryFnData, TError, TData = TQueryFnData, TQueryKey extends any[] = any[]>(
+export function useCustomQuery<
+  TQueryFnData,
+  TError,
+  TData = TQueryFnData,
+  TQueryKey extends unknown[] = unknown[]
+>(
   queryKey: TQueryKey,
   queryFn: () => Promise<TQueryFnData>,
   options?: CustomUseQueryOptions<TQueryFnData, TError, TData, TQueryKey>

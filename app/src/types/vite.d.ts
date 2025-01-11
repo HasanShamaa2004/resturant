@@ -1,4 +1,10 @@
-  export  interface RC<P = {}> extends React.FC<P> { } // react component
-    export interface RPO<P = {}> extends React.FC<P & { children?: ReactNode }> { } // react provider
-   export interface RPL<P = {}>
-      extends React.FC<P & { children?: any; title?: string }> { } // React layout
+import React, { ReactNode } from 'react';
+
+// تعريف RC: React Component
+export type RC<P extends object = object> = React.FC<P>;
+
+// تعريف RPO: React Provider Component
+export type RPO<P extends object = object> = React.FC<P & { children?: ReactNode }>;
+
+// تعريف RPL: React Layout Component
+export type RPL<P extends object = object> = React.FC<P & { children?: ReactNode; title?: string }>;

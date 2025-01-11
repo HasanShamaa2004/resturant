@@ -46,7 +46,7 @@ class ThemeManager {
       if (!window.theme_object) {
         window.theme_object = await this.getThemeObject();
       }
-    } catch (error) {
+    } catch  {
       throw new Error('Cannot load theme from local storage');
     }
   }

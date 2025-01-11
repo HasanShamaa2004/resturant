@@ -7,16 +7,18 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { DishesSectionProps } from "@/app/src/types/Components/DishesSection";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 const DishesSection = ({ DishesData }: DishesSectionProps) => {
+  const { t } = useTranslation();
   return (
     <section className="mb-44 container mx-auto">
       <div className="flex-between">
-        <h5 className="text-lg text-white font-semibold mt-6 mb-6 md:px-4 px-6 text-start">
-          Recommended Dishes
+        <h5 className="text-lg text-white font-semibold mt-6 mb-6  md:px-4 px-6 text-start">
+          {t("recommendedDishes")}
         </h5>
         <Link href="/dishes" className="text-primary text-lg mr-4">
-          View all
+          {t("viewAll")}
         </Link>
       </div>
 

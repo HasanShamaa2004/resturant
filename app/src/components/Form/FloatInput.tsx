@@ -20,6 +20,7 @@ const FloatInput = forwardRef<HTMLInputElement, FloatInputProps>(
     const formTheme = theme.global.components.custom.form;
     return (
       <Input
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {...(props as any)}
         className={cn(formTheme.float_input.base, props.className)}
         inputRef={ref}
@@ -27,5 +28,5 @@ const FloatInput = forwardRef<HTMLInputElement, FloatInputProps>(
     );
   }
 );
-
+FloatInput.displayName = "FloatInput";
 export default FloatInput;

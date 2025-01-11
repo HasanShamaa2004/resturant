@@ -17,15 +17,17 @@ import useTheme from "../../hooks/useTheme";
 
 export type LabelProps = ComponentPropsWithRef<"label">;
 
-const Label = forwardRef<HTMLLabelElement, LabelProps>((props, _ref) => {
+const Label = forwardRef<HTMLLabelElement, LabelProps>((props, ref) => {
   const theme = useTheme().global.components.custom.label;
   return (
     <Typography
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       as="label"
       {...props}
+      ref={ref}
       className={cn(theme.base, props.className)}
     ></Typography>
   );
 });
-
+Label.displayName = "Label";
 export default Label;

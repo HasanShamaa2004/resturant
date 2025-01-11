@@ -1,6 +1,6 @@
 import { UseQueryOptions } from "@tanstack/react-query";
 
-export type CustomUseQueryOptions<TQueryFnData, TError, TData, TQueryKey extends any[]> = UseQueryOptions<
+export type CustomUseQueryOptions<TQueryFnData, TError, TData, TQueryKey extends unknown[]> = UseQueryOptions<
   TQueryFnData,
   TError,
   TData,

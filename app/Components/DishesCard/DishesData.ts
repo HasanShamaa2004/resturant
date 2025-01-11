@@ -8,7 +8,7 @@ const dishes6 = "/assets/img/dishes/dishes6.webp";
 export const DishesData = [
     {
         id: 1,
-        price: "19 AED",
+        price: "19 aed",
         title: "Beef Burger",
         src: dishes1,
         alt: "Beef Burger"

@@ -26,6 +26,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     <div className="relative flex items-center gap-2">
       <MInput
         containerProps={{ className: props.containerProps }}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {...(props as any)}
         ref={ref}
         className={cn(
@@ -42,7 +43,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
         <span>
           <Tooltip content={props.error}>
             <button type="button">
-              <IoMdInformationCircleOutline />
+              <IoMdInformationCircleOutline className="text-red" />
             </button>
           </Tooltip>
         </span>
@@ -50,5 +51,5 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     </div>
   );
 });
-
+Input.displayName = "Input";
 export default Input;

@@ -10,15 +10,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastOptions } from "react-toastify";
 import { RPO } from "@/app/src/types/vite";
 
-export interface NotificationProviderProps
-  extends RPO<{
-    options?: ToastOptions;
-  }> {}
-
-const NotificationProvider: NotificationProviderProps = ({
-  children,
-  options,
-}) => {
+const NotificationProvider: RPO<{
+  options?: ToastOptions;
+}> = ({ children, options }) => {
   const toastsOptions: ToastOptions = {
     position: "top-right",
     autoClose: 5000,

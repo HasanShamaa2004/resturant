@@ -26,39 +26,44 @@ import {
 import useTheme from "../../hooks/useTheme";
 
 export const Card = forwardRef<HTMLDivElement, CardProps>((props, ref) => (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   <MCard {...(props as any)} ref={ref} className={cn(props.className)} />
 ));
-
+Card.displayName = "Card";
 export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(
   (props, ref) => (
     <MCardHeader
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       {...(props as any)}
       ref={ref}
       className={cn(props.className)}
     />
   )
 );
-
+CardHeader.displayName = "CardHeader";
 export const CardBody = forwardRef<HTMLDivElement, CardBodyProps>(
   (props, ref) => (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     <MCardBody {...(props as any)} ref={ref} className={cn(props.className)} />
   )
 );
-
+CardBody.displayName = "CardBody";
 export const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
   (props, ref) => (
     <MCardFooter
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       {...(props as any)}
       ref={ref}
       className={cn(props.className)}
     />
   )
 );
-
+CardFooter.displayName = "CardFooter";
 export const CardTitle = forwardRef<HTMLHeadingElement, CardTitleProps>(
   (props, ref) => {
     return (
       <Typography
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {...(props as any)}
         ref={ref}
         variant="h5"
@@ -68,7 +73,7 @@ export const CardTitle = forwardRef<HTMLHeadingElement, CardTitleProps>(
     );
   }
 );
-
+CardTitle.displayName = "CardTitle";
 export const CardDescription = forwardRef<
   HTMLParagraphElement,
   CardDescriptionProps
@@ -77,6 +82,7 @@ export const CardDescription = forwardRef<
   const cardTheme = theme.global.components.custom.card;
   return (
     <Typography
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       {...(props as any)}
       ref={ref}
       variant="paragraph"
@@ -85,3 +91,4 @@ export const CardDescription = forwardRef<
     />
   );
 });
+CardDescription.displayName = "CardDescription";

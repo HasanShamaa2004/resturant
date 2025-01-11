@@ -36,6 +36,7 @@
 }
 body {
   font-family: "Rosario", sans-serif;
+  font-display: swap;
 }
 .flex-center {
   @apply flex items-center justify-center gap-3;

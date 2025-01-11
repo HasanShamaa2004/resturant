@@ -19,10 +19,9 @@ import type {
   menuProps,
   containerProps
 } from '@material-tailwind/react/types/components/select';
-
 export type SelectProps = ComponentPropsWithoutRef<'select'> & {
   variant?: variant;
-  color?: color | any;
+  color?: color;
   size?: size;
   label?: label;
   error?: error;

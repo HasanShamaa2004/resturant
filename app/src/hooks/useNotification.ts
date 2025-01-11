@@ -1,3 +1,4 @@
+'use client'
 // Dependencies
 import { ReactNode } from 'react';
 import { toast as createToast, TypeOptions } from 'react-toastify';

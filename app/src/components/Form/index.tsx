@@ -18,12 +18,13 @@ export type FormProps = ComponentPropsWithRef<"form">;
 const Form = forwardRef<HTMLFormElement, FormProps>((props, ref) => {
   const theme = useTheme();
   const formTheme = theme.global.components.custom.form;
+
   return (
     <form {...props} ref={ref} className={cn(formTheme.base, props.className)}>
       {props.children}
     </form>
   );
 });
-
+Form.displayName = "Form";
 export default Form;
 export { FormGroup, FloatInput, FormErrors };

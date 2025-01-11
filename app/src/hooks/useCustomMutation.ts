@@ -1,3 +1,4 @@
+'use client'
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { CustomUseMutationOptions } from '../types/Hooks/useCustomMutation';
 

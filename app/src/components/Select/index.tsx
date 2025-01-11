@@ -11,6 +11,7 @@ import { RC } from "../../types/vite";
 export const Select: RC<SelectProps> = (props) => {
   return (
     <MSelect
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       {...(props as any)}
       className={`${props.className}`}
       labelProps={{
@@ -22,5 +23,6 @@ export const Select: RC<SelectProps> = (props) => {
 };
 
 export const Option: RC<SelectOptionProps> = (props) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return <MOption {...(props as any)}></MOption>;
 };
