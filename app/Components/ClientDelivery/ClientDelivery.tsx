@@ -1,17 +1,18 @@
 "use client";
-import Form, { FormErrors, FormGroup } from "@/app/src/components/Form";
+import Form, { FormGroup } from "@/app/src/components/Form";
 import ArrowBack from "../ArrowBack/ArrowBack";
 import Label from "@/app/src/components/Label";
 import Input from "@/app/src/components/Input";
-import MapPicker from "react-google-map-picker";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Button from "@/app/src/components/Button/Button";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import * as Yup from "yup";
-import { DeliveryFormData } from "@/app/src/types/Pages/ClientDelivery";
+// import { DeliveryFormData } from "@/app/src/types/Pages/ClientDelivery";
 import i18n from "@/app/i18n/i18n";
+import { handleFormChange } from "@/app/src/utilities/functions/FormStateFunctions";
+import Map from "../Map/Map";
 // type DeliveryFormProps = ComponentPropsWithRef<"form"> & {
 //   onSubmit?: (data: DeliveryFormData) => void;
 // };
@@ -35,8 +36,7 @@ const deliverySchema = Yup.object().shape({
 
 const DefaultLocation = { lat: 25.2532, lng: 55.3657 };
 const DefaultZoom = 10;
-const GOOGLE_MAPS_API_KEY =
-  process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "YOUR_API_KEY";
+
 const ClientDelivery = () => {
   const logo = "/assets/img/big.webp";
   const [zoom, setZoom] = useState(DefaultZoom);
@@ -48,6 +48,12 @@ const ClientDelivery = () => {
     apartment: "",
     location: DefaultLocation,
   });
+  console.log(
+    "🚀 ~ file: ClientDelivery.tsx:52 ~ ClientDelivery ~ formData:",
+    formData
+  );
+  const [isLoading, setIsLoading] = useState(true);
+
   const [formError, setFormError] = useState<string>("");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -68,46 +74,18 @@ const ClientDelivery = () => {
           ...prev,
           location: { lat: latitude, lng: longitude },
         }));
+        setIsLoading(false); // إيقاف التحميل عند الحصول على الموقع
       },
       (err) => {
         console.log("Error getting location", err);
+        setIsLoading(false); // إيقاف التحميل في حالة الخطأ
       }
     );
   };
   useEffect(() => {
     getLocation();
   }, []);
-  const handleChange =
-    (field: keyof DeliveryFormData) =>
-    async (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value;
-      setFormData((prev) => ({
-        ...prev,
-        [field]: value,
-      }));
-      if (field !== "location") {
-        try {
-          const fieldSchema = Yup.reach(deliverySchema, field);
-          if (
-            fieldSchema instanceof Yup.StringSchema ||
-            fieldSchema instanceof Yup.NumberSchema
-          ) {
-            await fieldSchema.validate(value);
-            setErrors((prevErrors) => {
-              const newErrors = { ...prevErrors };
-              delete newErrors[field];
-              return newErrors;
-            });
-          }
-        } catch (validationError: any) {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            [field]: validationError.message,
-          }));
-        }
-      }
-    };
-
+  const handleChange = handleFormChange(setFormData, setErrors, deliverySchema);
   const handleChangeLocation = (lat: number, lng: number) => {
     setFormData((prev) => ({
       ...prev,
@@ -167,8 +145,9 @@ const ClientDelivery = () => {
                 error={errors?.name}
                 containerProps={{ className: "!min-w-[100px]" }}
                 id="name"
+                name="name"
                 value={formData.name}
-                onChange={handleChange("name")}
+                onChange={handleChange}
                 placeholder="Type Your name"
                 className="bg-secondary !border-white focus:!border-white text-white max-w-[400px] w-full"
               />
@@ -184,8 +163,9 @@ const ClientDelivery = () => {
                 error={errors?.phone}
                 containerProps={{ className: "!min-w-[100px]" }}
                 id="phone"
+                name="phone"
                 value={formData.phone}
-                onChange={handleChange("phone")}
+                onChange={handleChange}
                 placeholder="e.g., +1 234 567 8901"
                 className="bg-secondary !border-white focus:!border-white  text-white max-w-[400px] w-full "
               />
@@ -199,7 +179,8 @@ const ClientDelivery = () => {
               error={errors?.street}
               containerProps={{ className: "!min-w-[100px]" }}
               value={formData.street}
-              onChange={handleChange("street")}
+              name="street"
+              onChange={handleChange}
               placeholder="e.g., 123 Main Street"
               className="bg-secondary !border-white focus:!border-white  text-white max-w-[830px] w-full"
             />
@@ -214,8 +195,9 @@ const ClientDelivery = () => {
                 error={errors?.building}
                 containerProps={{ className: "!min-w-[100px]" }}
                 id="building"
+                name="building"
                 value={formData.building}
-                onChange={handleChange("building")}
+                onChange={handleChange}
                 placeholder={t("typeYourName")}
                 className="bg-secondary !border-white focus:!border-white text-white max-w-[400px] w-full"
               />
@@ -228,8 +210,9 @@ const ClientDelivery = () => {
                 error={errors?.apartment}
                 containerProps={{ className: "!min-w-[100px]" }}
                 id="apartment"
+                name="apartment"
                 value={formData.apartment}
-                onChange={handleChange("apartment")}
+                onChange={handleChange}
                 placeholder="e.g., Skyline Towers"
                 className="bg-secondary !border-white focus:!border-white text-white max-w-[400px] w-full"
               />
@@ -239,16 +222,16 @@ const ClientDelivery = () => {
             <Label className="text-white text-xs my-2" htmlFor="map">
               {t("map")}
             </Label>
-            <MapPicker
-              style={{ height: "300px" }}
-              className="!max-w-[820px] w-full rounded-xl"
-              defaultLocation={formData.location}
-              zoom={zoom}
-              mapTypeId={"roadmap" as any}
-              onChangeLocation={handleChangeLocation}
-              onChangeZoom={handleChangeZoom}
-              apiKey={GOOGLE_MAPS_API_KEY}
-            />
+            {isLoading ? (
+              <div>جاري تحديد موقعك...</div>
+            ) : (
+              <Map
+                defaultLocation={formData.location}
+                zoom={zoom}
+                onChangeLocation={handleChangeLocation}
+                onChangeZoom={handleChangeZoom}
+              />
+            )}
             {errors?.location && (
               <Input error={errors.location} className="hidden" />
             )}

@@ -33,9 +33,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Head>
-        <title>Qasr</title>
+        <title>QASR AL MASHAWIAAT</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="Welcome to Qasr" />
+        <meta name="description" content="Welcome to QASR AL MASHAWIAAT" />
       </Head>
 
       <body className={`${rosario.variable} antialiased bg-background`}>

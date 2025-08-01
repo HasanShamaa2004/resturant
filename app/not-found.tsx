@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 
-const notFound = () => {
+const NotFound = () => {
   const not = "/assets/img/404.webp";
   const { t } = useTranslation();
   return (
@@ -19,4 +19,4 @@ const notFound = () => {
   );
 };
 
-export default notFound;
+export default NotFound;

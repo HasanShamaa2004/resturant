@@ -9,8 +9,8 @@ import Button from "@/app/src/components/Button/Button";
 import { useRouter } from "next/navigation";
 import * as yup from "yup";
 import i18n from "@/app/i18n/i18n";
+import { handleTextChange } from "@/app/src/utilities/functions/InputsStateFuntions";
 
-// تعريف مخطط التحقق
 const schema = yup.object().shape({
   tableNumber: yup
     .string()
@@ -22,14 +22,17 @@ const schema = yup.object().shape({
 const ClientInPerson = () => {
   const { t } = useTranslation();
   const [tableNumber, setTableNumber] = useState<string>("");
+  console.log(
+    "🚀 ~ file: ClientInPerson.tsx:25 ~ ClientInPerson ~ tableNumber:",
+    tableNumber
+  );
   const [error, setError] = useState<Record<string, string>>({});
   const logo = "/assets/img/big.webp";
   const router = useRouter();
-
+  const handelChange = handleTextChange(setTableNumber, schema, setError);
   const handleSubmit = async () => {
     try {
       await schema.validate({ tableNumber }, { abortEarly: false });
-
       // إذا نجح التحقق، انتقل إلى الصفحة التالية
       router.push("/review");
     } catch (error) {
@@ -59,11 +62,9 @@ const ClientInPerson = () => {
               {t("tableNumber")}
             </Label>
             <Input
+              name="tableNumber"
               value={tableNumber}
-              onChange={(e) => {
-                setTableNumber(e.target.value);
-                setError({}); // مسح الخطأ عند الكتابة
-              }}
+              onChange={handelChange}
               error={error?.tableNumber}
               placeholder={t("enterTableNumber")}
               className="bg-secondary !border-white focus:!border-white max-w-[400px] text-white w-full"

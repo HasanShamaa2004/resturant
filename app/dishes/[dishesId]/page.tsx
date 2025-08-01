@@ -1,20 +1,26 @@
 import { notFound } from "next/navigation";
 import { DishesData } from "@/app/Components/DishesCard/DishesData";
-import ClientDetails from "@/app/Components/ClientDetails/ClientDetails";
-import { Metadata } from "next";
+import dynamic from "next/dynamic";
+
+const ClientDetails = dynamic(
+  () => import("@/app/Components/ClientDetails/ClientDetails")
+);
 
 interface PageProps {
-  params: { dishesId: string };
+  params: Promise<{ dishesId: string }>;
 }
-// Generate metadata for each dish
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
-  const dishesId = params.dishesId as string;
 
-  const dishId = Number(dishesId);
-  const dish = DishesData.find((item) => item.id === dishId);
+export function generateStaticParams() {
+  return DishesData.map((dish) => ({
+    dishesId: dish.id.toString(),
+  }));
+}
 
+export async function generateMetadata({ params }: PageProps) {
+  const resolvedParams = await params; // أضف await هنا
+  const dish = DishesData.find(
+    (item) => item.id === Number(resolvedParams.dishesId)
+  );
   return {
     title: dish ? `${dish.title} - Details` : "Dish Not Found",
     description: dish
@@ -23,26 +29,12 @@ export async function generateMetadata({
   };
 }
 
-// Generate static paths for pre-rendering
-export function generateStaticParams() {
-  return DishesData.map((dish) => ({
-    dishesId: dish.id.toString(),
-  }));
-}
+export default async function DishDetailsPage({ params }: PageProps) {
+  const resolvedParams = await params; // أضف await هنا
+  const dish = DishesData.find(
+    (item) => item.id === Number(resolvedParams.dishesId)
+  );
+  if (!dish) notFound();
 
-// Dish details page component
-export default function DishDetailsPage({ params }: PageProps) {
-  const dishesId = params.dishesId as string;
-
-  // Convert dishesId to a number safely
-  const dishId = Number(dishesId);
-  const dish = DishesData.find((item) => item.id === dishId);
-
-  // Handle dish not found case
-  if (!dish) {
-    notFound();
-  }
-
-  // Render client-side details for the dish
   return <ClientDetails data={dish} />;
 }

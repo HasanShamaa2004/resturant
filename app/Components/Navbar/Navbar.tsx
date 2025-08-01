@@ -18,7 +18,7 @@ const Navbar = () => {
   const store = "/assets/icons/store.svg";
   const logo = "/assets/img/logo.svg";
   const [open, setOpen] = useState<boolean>(false);
-  const [selected, setSelected] = useState("select-language");
+  const [selected, _setSelected] = useState("select-language");
   const { t, i18n } = useTranslation();
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
